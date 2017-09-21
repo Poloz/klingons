@@ -1,52 +1,6 @@
-// klingons.cpp : Trekkie game by Alex Baranov.
-// 2016-2017, SPb, Russia.
-// Version 1
-
-// TODO improvement: Init whole galaxy at startup. All sectors.
-// TODO adjust sector and galaxy map outputs (coordinate axis) and inputs due to SECTOR and GALAXY 
-// TODO feature Remember each sector's stars and other objects.
-// TODO feature: Planets. Revolving around the star every 4 actions - moving or shooting.
-// TODO feature: Star names. Generated.
-// TODO feature: Stardust.
-// TODO feature: Asteroids. Like planets, but wanering in space.
-// TODO feature: Constellations. Unique star configurations per sector or adjacent sectors.
-// TODO Long range radar radius of 3-4 squares. Detects klingons. Bases are generated at start locations known.
-// TODO rewrite: Modularize program (.h, several .cpp).
-// TODO feature: Make sense with "Clingons rest" on the final screen
-
-// -------------
-
-// TODO WIP Release2: Global goal. Make all stats (fuel, oxygen, energy) useful.
-// TODO feature: Clingon boarding mode. Ability to capture things and be attacked in return.
-// TODO feature: Text quests, prompt personalization and randomization.
-// TODO feature: Localizations.
-// TODO feature: Galaxy jump events (drive falure).
-// TODO feature: Ship's subsystems.
-
-/*
-. Win32
-. DOS
-. Linux
-. OS X
-. Android
-
-. Google Play
-
-. Win 8.1 store
-. Win 10 universal
-. Win mobile 10
-
-. iOS
-
-. Steam
-. Flash
-*/
-
-//#include "stdafx.h"
 #include <cstdlib>
 #include <iostream>
 #include <iomanip>
-//#include <string>
 #include <cmath>
 #include <vector>
 #include <limits>
@@ -61,76 +15,14 @@ using std::vector;
 
 #define PI 3.14159265
 
-int clingons = 0;
-int ship_x = 0;
-int ship_y = 0;
+//My files
+#include "init.h"
+#include "intro.h"
+#include "endgame.h"
 
-// Local sector objects. 
-// 0 - space
-// 1 - star
-// 2 - clingon
-// 3 - our ship
-// 4 - base
-// 5 - warhead
-#define SECTOR 10
-int sector[SECTOR][SECTOR] = { 0 };
 
-// Global galaxy map
-// 1 - base
-// 2 - ship
-// 3 - visited
 #define GALAXY 12
 int galaxy[GALAXY][GALAXY] = { 0 };
-
-int init_sector(int stars_min, int stars_max, int clingons_min, int clingon_max, bool base) {
-
-	int j;
-	int k;
-
-	srand(time(NULL));
-
-	for (int i = 0; i < SECTOR; i++) {
-		for (int j = 0; j < SECTOR; j++) {
-			sector[i][j] = 0;
-		}
-	}
-
-	ship_x = 0;
-	ship_y = 0;
-	// stars
-	for (int i = 1; i <= (rand() % (stars_max - stars_min) + stars_min); i++) {
-		do {
-			j = rand() % SECTOR;
-			k = rand() % SECTOR;
-		} while (sector[j][k] != 0);
-		sector[j][k] = 1;
-	}
-	// clingons
-	for (int i = 1; i <= (rand() % (clingon_max - clingons_min) + clingons_min); i++) {
-		do {
-			j = rand() % SECTOR;
-			k = rand() % SECTOR;
-		} while (sector[j][k] != 0);
-		sector[j][k] = 2;
-		clingons++;
-	}
-	// Our ship
-	do {
-		ship_x = rand() % SECTOR;
-		ship_y = rand() % SECTOR;
-	} while (sector[ship_x][ship_y] != 0);
-	sector[ship_x][ship_y] = 3;
-	// 0-1 base
-	if (base == true) {
-		do {
-			j = rand() % SECTOR;
-			k = rand() % SECTOR;
-		} while (sector[j][k] != 0);
-		sector[j][k] = 4;
-	}
-
-	return 0;
-}
 
 int draw_statusbar(int energy, int warheads, float fuel, float oxygen) {
 	system("CLS");
@@ -240,47 +132,6 @@ int draw_sector(int energy, int warheads, float fuel, float oxygen, int sector[S
 	return 0;
 }
 
-int intro() {
-	//char ch;
-
-	system("CLS");
-	cout << "-----------------------------------------------------\n";
-	cout << "              Old Console Trekkie Game\n\n";
-	cout << "            (Not like Xbox or PS console)\n";
-	cout << "\n";
-	cout << "                     Remake\n";
-	cout << "                      v.01\n";
-	cout << "\nFYI some radar readings:\n\n";
-	cout << " * - star. Hot ball of hot gases. Quite hot, indeed.\n";
-	cout << " k - slimy klingon. Seven-assed enemy.\n";
-	cout << " S - our ship. She's real beauty, ain't she, capt'n?\n";
-	cout << " B - sector base. Supplies!\n";
-	cout << " w - dangerous warhead.\n";
-	cout << " . - vast black space. No air, just starsine.\n";
-	cout << "\nYou could wander around, launch warhead occasionaly\n";
-	cout << "and quit whenever you like. Shiny! Also jumping\n";
-	cout << "between galaxy sectors is not prohibited. Yet.\n";
-	cout << "-----------------------------------------------------\n";
-	cout << "\n";
-	cout << "\n";
-	system("pause");
-	return 0;
-}
-
-int endgame(int clingons, bool base_destroyer) {
-	system("CLS");
-	cout << "----------------------------------------\n";
-	cout << "-Clingons rest: " << clingons << endl;
-	if (base_destroyer) {
-		cout << "-By the way, you are wanted fugitive now\n for destroying friendly base.\n";
-		cout << "-Your own base, for god's sake!\n";
-	}
-	cout << "-See ya, capt'n!\n";
-	cout << "----------------------------------------\n\n\n";
-	system("pause");
-	return 0;
-}
-
 int main()
 {
 	int warheads = 15;
@@ -327,8 +178,6 @@ int main()
 
 	galaxy[galaxy_x][galaxy_y] = 2; // Ship in the right sector
 
-	intro();
-
 	prompts.push_back("\n\n-We are short on warheads, need resupply!\n-What should we do?\n-"); //0
 	prompts.push_back("\n\n-Warhead course?\n-"); //1
 	prompts.push_back("\n\n-Warhead wanished in the star's flames!\n-Orders?\n-"); //2
@@ -359,11 +208,15 @@ int main()
 									//prompts.push_back(); //27
 									//prompts.push_back(); //28
 									//prompts.push_back(); //29
+    intro();
+
 	do
 	{
 		switch (input) {
 		case 'q': // Quit
+            system("CLS");
 			endgame(clingons, base_destroyer);
+            system("pause");
 			quit = true;
 			break;
 		case 'a': // Attack

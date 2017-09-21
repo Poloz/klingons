@@ -42,13 +42,15 @@
 . Flash
 */
 
-#include "stdafx.h"
-#include <stdlib.h> 
+//#include "stdafx.h"
+#include <cstdlib>
 #include <iostream>
 #include <iomanip>
-#include <string>
+//#include <string>
 #include <cmath>
 #include <vector>
+#include <limits>
+#include <windows.h>
 
 //using namespace std;
 using std::cin;
@@ -269,7 +271,7 @@ int endgame(int clingons, bool base_destroyer) {
 	system("CLS");
 	cout << "----------------------------------------\n";
 	cout << "-Clingons rest: " << clingons << endl;
-	if (base_destroyer == true) {
+	if (base_destroyer) {
 		cout << "-By the way, you are wanted fugitive now\n for destroying friendly base.\n";
 		cout << "-Your own base, for god's sake!\n";
 	}
@@ -402,7 +404,7 @@ int main()
 						) {
 						sector[ship_x + (int)round(warhead_x)][ship_y + (int)round(warhead_y)] = 5;
 						draw_sector(energy, warheads, fuel, oxygen, sector, prompt, prompt_mode);
-						_sleep(500);
+						Sleep(500);
 						sector[ship_x + (int)round(warhead_x)][ship_y + (int)round(warhead_y)] = 0;
 						warhead_old_x = ship_x + (int)round(warhead_x);
 						warhead_old_y = ship_y + (int)round(warhead_y);
@@ -531,7 +533,7 @@ int main()
 			}
 			break;
 		case 'd':
-			if (docking == false) {
+			if (!docking) {
 				prompt = prompts[15];
 				break;
 			}
@@ -560,13 +562,13 @@ int main()
 					galaxy_y = ship_dest_y;
 
 					cout << "Moving to " << ship_dest_y << ":0" << ship_dest_x << "...";
-					_sleep(2000);
+					Sleep(2000);
 					cout << prompts[23] << endl;
-					_sleep(1000);
+					Sleep(1000);
 					fuel -= 4;
 					prompt = prompts[21];
 					draw_galaxy(energy, warheads, fuel, oxygen, galaxy, prompt);
-					_sleep(2000);
+					Sleep(2000);
 					cout << prompts[24] << endl;
 
 					// randomize sector : 5-20 stars, 1-5 clingons, 1 ship, 0-1 base
@@ -583,7 +585,7 @@ int main()
 					cout << prompts[22];
 				}
 			}
-			_sleep(2000);
+			Sleep(2000);
 			prompt = prompts[18];
 			//	init_sector((rand() % 1 + 13), (rand() % 20 + 15), 1, 4, true);
 			break;

@@ -6,3 +6,7 @@ And final test one.
 Pull request message test.
 Some bytes.
 +:comment=[Ss]ubmit to the [Aa]pp( ?)[Ss]tore:**
+
++:comment=[Tt]est[Ff]light:**
++:comment=[Ss]ubmit to the [Aa]pp( ?)[Ss]tore:**
+-:comment=Do not:**

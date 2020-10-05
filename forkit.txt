@@ -1,35 +1,5 @@
-Was forked?
-One more line.
-One more line.
-One more line.
-And final test one.
-Pull request message test.
-Some bytes.
-+:comment=[Ss]ubmit to the [Aa]pp( ?)[Ss]tore:**
-
 +:comment=[Tt]est[Ff]light:**
 +:comment=[Ss]ubmit to the [Aa]pp( ?)[Ss]tore:**
 -:comment=Do not:**
-
 -:comment=[Ss]ubmit to the [Aa]pp( ?)[Ss]tore:**
-
-dont
-
-this file really should not be build
-
-and this should not also
-
-no build
-
-no build
-nonono nnooooo
-no build again
-nonononononononono
-nonononononono
-nononono
-
-yesyesyes
-
 I'll submit to the Appstore this build
-
-no - returns is back
